@@ -580,6 +580,9 @@
   .k1-card details p { font-size: 0.82rem; line-height: 1.5; color: var(--text); margin-top: 0.4rem; }
   .k1-source { font-size: 0.7rem; color: var(--muted); margin-top: 0.6rem; text-align: right; }
   .k1-source a { color: var(--muted); }
+  .k1-more { text-align: right; margin-top: 0.6rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .k1-more a { color: var(--red); text-decoration: none; }
+  .k1-more a:hover { color: var(--gold); }
   @media (max-width: 640px) {
     #k1 { padding: 20px 1rem 4px; }
     .k1-strip { grid-template-columns: 1fr; gap: 0.7rem; }
@@ -747,6 +750,7 @@
     <li><a href="#stats">Stats</a></li>
     <li><a href="#gallery">Gallery</a></li>
     <li><a href="#standings">Standings</a></li>
+    <li><a href="k1.html">K1 Results</a></li>
     <li><a href="#links">Links</a></li>
     <li><a href="#sponsors">Sponsors</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -761,6 +765,7 @@
   <a href="#stats"      onclick="closeMenu()">Stats</a>
   <a href="#gallery"    onclick="closeMenu()">Gallery</a>
   <a href="#standings"  onclick="closeMenu()">Standings</a>
+  <a href="k1.html"     onclick="closeMenu()">K1 Results</a>
   <a href="#links"      onclick="closeMenu()">Links</a>
   <a href="#sponsors"   onclick="closeMenu()">Sponsors</a>
   <a href="#contact"    onclick="closeMenu()">Contact</a>
@@ -823,6 +828,7 @@
       </details>
     </div>
   </div>
+  <p class="k1-more"><a href="k1.html">Full K1 results &amp; standings →</a></p>
   <p class="k1-source">Source: K1 Speed results —
     <a href="https://www.k1speed.com/houston-junior-league-results.html" target="_blank" rel="noopener noreferrer">Houston Junior League</a> ·
     <a href="https://www.k1speed.com/blog/2026-state-championship-results.html" target="_blank" rel="noopener noreferrer">2026 State Championships</a> ·
