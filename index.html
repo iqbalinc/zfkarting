@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaar | KA100 Racing Driver</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+
+  :root {
+    --red: #e8000d;
+    --gold: #ffd700;
+    --dark: #0a0a0f;
+    --card: #0f0f1a;
+    --border: #1e1e2e;
+    --text: #e0e0f0;
+    --muted: #888;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ─────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--red);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 64px;
+  }
+  .nav-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900; font-size: 1.4rem;
+    color: var(--red); letter-spacing: 4px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 1.6rem; list-style: none; }
+  .nav-links a {
+    color: var(--text); text-decoration: none;
+    font-weight: 600; font-size: 0.9rem; letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--red); }
+
+  /* ── HERO ────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 80px 2rem 3rem;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(232,0,13,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 100%, rgba(255,215,0,0.08) 0%, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+      var(--dark);
+    position: relative;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--red), var(--gold), var(--red), transparent);
+  }
+
+  .hero-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(7rem, 20vw, 16rem);
+    font-weight: 900; line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(232,0,13,0.3);
+    position: absolute;
+    user-select: none; pointer-events: none;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    white-space: nowrap;
+  }
+
+  .hero-content { position: relative; z-index: 2; }
+
+  .hero-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--red), #900008);
+    color: #fff; font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    padding: 6px 20px; border-radius: 2px;
+    margin-bottom: 1.2rem;
+  }
+
+  h1.driver-name {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 900; letter-spacing: 6px;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 30%, var(--gold));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-sub {
+    font-size: 1.2rem; font-weight: 600; letter-spacing: 3px;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 2rem;
+  }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 2.5rem;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .val {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem; font-weight: 900; color: var(--gold);
+    display: block;
+  }
+  .hero-stat .lbl {
+    font-size: 0.75rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .hero-cta {
+    display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  }
+  .btn {
+    padding: 12px 28px; border-radius: 3px;
+    font-family: 'Rajdhani', sans-serif; font-weight: 700;
+    font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; cursor: pointer; border: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,0,13,0.4); }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-outline {
+    background: transparent; color: var(--text);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+  /* ── SECTIONS ────────────────────────────────── */
+  section { padding: 80px 2rem; max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--red); font-weight: 700; margin-bottom: 0.4rem;
+  }
+  h2.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900;
+    color: #fff; margin-bottom: 2.5rem;
+  }
+  h2.section-title span { color: var(--red); }
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold));
+    margin: 0.8rem 0 2.5rem;
+  }
+
+  /* ── STATS TABLE ──────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem; margin-bottom: 2.5rem;
+  }
+
+  /* small caption above each band of stats */
+  .band-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 0.9rem;
+  }
+
+  /* per-championship summary cards (Spring and Fall score separately) */
+  .champ-row {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; margin-bottom: 3rem;
+  }
+  .champ-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--border);
+    border-radius: 4px; padding: 1.2rem 1.4rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .champ-card:hover { transform: translateY(-3px); }
+  .champ-card.is-current { border-left-color: var(--gold); }
+  .champ-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: #fff; font-weight: 700; margin-bottom: 0.3rem;
+  }
+  .champ-status {
+    font-size: 0.72rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .champ-figures { text-align: right; flex-shrink: 0; }
+  .champ-pos {
+    font-family: 'Orbitron', sans-serif; font-size: 1.9rem; font-weight: 900;
+    color: var(--gold); line-height: 1;
+  }
+  .champ-pts { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+  .champ-pts span { color: var(--text); font-weight: 700; }
+
+  /* season divider rows inside the results table */
+  tbody tr.season-row,
+  tbody tr.season-row:hover {
+    background: linear-gradient(135deg, #16060b, #0d0010);
+    border-bottom: 2px solid var(--red);
+  }
+  tbody tr.season-row td { padding: 11px 16px; }
+  .season-name {
+    font-family: 'Orbitron', sans-serif; font-weight: 900;
+    font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .season-meta {
+    font-size: 0.78rem; color: var(--muted);
+    letter-spacing: 1px; margin-left: 0.7rem;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--red);
+    border-radius: 4px; padding: 1.5rem 1rem;
+    text-align: center;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-4px); border-top-color: var(--gold); }
+  .stat-card .num {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.4rem; font-weight: 900; color: var(--gold);
+  }
+  .stat-card .desc {
+    font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); margin-top: 4px;
+  }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  thead tr {
+    background: linear-gradient(135deg, #1a0004, #1a000a);
+    border-bottom: 2px solid var(--red);
+  }
+  thead th {
+    padding: 14px 16px; text-align: left;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.68rem; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--gold);
+  }
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  tbody tr:hover { background: rgba(232,0,13,0.06); }
+  tbody td { padding: 13px 16px; }
+  .pos-1 { color: var(--gold); font-weight: 700; }
+  .pos-2 { color: #c0c0c0; font-weight: 700; }
+  .pos-3 { color: #cd7f32; font-weight: 700; }
+  .badge-win {
+    background: rgba(255,215,0,0.15); color: var(--gold);
+    border: 1px solid rgba(255,215,0,0.3);
+    padding: 2px 10px; border-radius: 2px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+  }
+  .badge-podium {
+    background: rgba(192,192,192,0.12); color: #c0c0c0;
+    border: 1px solid rgba(192,192,192,0.2);
+    padding: 2px 10px; border-radius: 2px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+  }
+  .badge-fl {
+    background: rgba(0,200,100,0.12); color: #00c864;
+    border: 1px solid rgba(0,200,100,0.2);
+    padding: 2px 10px; border-radius: 2px;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+  }
+
+  /* ── PHOTO GALLERY / SLIDESHOW ───────────────── */
+  .slideshow-wrap {
+    position: relative; width: 100%;
+    aspect-ratio: 16/7; min-height: 300px;
+    background: var(--card); border-radius: 8px; overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.8s ease;
+  }
+  .slide.active { opacity: 1; }
+  .slide img {
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .slide-caption {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1.2rem 1.5rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
+    font-size: 0.9rem; font-weight: 600; color: #fff;
+    letter-spacing: 1px;
+  }
+  .slide-controls {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 100%; display: flex; justify-content: space-between;
+    padding: 0 1rem; pointer-events: none;
+  }
+  .slide-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font-size: 1.2rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: all; transition: background 0.2s;
+  }
+  .slide-btn:hover { background: var(--red); }
+  .slide-dots {
+    position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 6px;
+  }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.4); cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .dot.active { background: var(--red); transform: scale(1.3); }
+  .gallery-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.75rem; margin-top: 1rem;
+    overflow-x: auto; scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  .gallery-grid::-webkit-scrollbar { display: none; }
+  .gallery-thumb { flex: 0 0 180px; }
+  .gallery-thumb {
+    aspect-ratio: 4/3; border-radius: 4px; overflow: hidden;
+    cursor: pointer; border: 2px solid transparent;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .gallery-thumb:hover { border-color: var(--red); transform: scale(1.02); }
+  .gallery-thumb.active-thumb { border-color: var(--gold); }
+  .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .no-photos {
+    text-align: center; padding: 4rem 2rem;
+    color: var(--muted); font-size: 0.9rem;
+    border: 2px dashed var(--border); border-radius: 8px;
+  }
+  .no-photos .icon { font-size: 3rem; margin-bottom: 0.5rem; }
+  .photo-caption {
+    font-size: 0.85rem; color: #fff; font-weight: 600;
+  }
+
+  /* ── LINKS ───────────────────────────────────── */
+  .links-row {
+    display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .ext-link {
+    display: flex; align-items: center; gap: 0.6rem;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 4px; padding: 14px 22px;
+    text-decoration: none; color: var(--text);
+    font-weight: 700; font-size: 0.95rem; letter-spacing: 1px;
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  }
+  .ext-link:hover { border-color: var(--red); color: var(--red); transform: translateY(-2px); }
+  .ext-link svg { flex-shrink: 0; }
+
+  /* ── SPONSORSHIP ──────────────────────────────── */
+  .sponsor-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem; margin-bottom: 3rem;
+  }
+  .sponsor-tier {
+    border-radius: 6px; padding: 2rem 1.6rem;
+    position: relative; overflow: hidden;
+    border: 1px solid transparent;
+  }
+  .sponsor-tier::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .tier-platinum {
+    background: linear-gradient(135deg, #0d0d1a, #1a1a2e);
+    border-color: #b0c4de;
+  }
+  .tier-platinum::before { background: linear-gradient(90deg, #b0c4de, #e8f0fe, #b0c4de); }
+  .tier-gold {
+    background: linear-gradient(135deg, #0f0d00, #1a1500);
+    border-color: var(--gold);
+  }
+  .tier-gold::before { background: linear-gradient(90deg, var(--gold), #fff7a0, var(--gold)); }
+  .tier-silver {
+    background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+    border-color: #c0c0c0;
+  }
+  .tier-silver::before { background: linear-gradient(90deg, #c0c0c0, #f0f0f0, #c0c0c0); }
+
+  .tier-icon { font-size: 2.4rem; margin-bottom: 0.5rem; }
+  .tier-name {
+    font-family: 'Orbitron', sans-serif; font-weight: 900;
+    font-size: 1.2rem; margin-bottom: 0.3rem;
+  }
+  .tier-platinum .tier-name { color: #b0c4de; }
+  .tier-gold .tier-name { color: var(--gold); }
+  .tier-silver .tier-name { color: #c0c0c0; }
+  .tier-price {
+    font-size: 2rem; font-weight: 900; margin-bottom: 1rem;
+  }
+  .tier-platinum .tier-price { color: #b0c4de; }
+  .tier-gold .tier-price { color: var(--gold); }
+  .tier-silver .tier-price { color: #c0c0c0; }
+  .tier-perks { list-style: none; margin-bottom: 1.5rem; }
+  .tier-perks li {
+    padding: 6px 0;
+    font-size: 0.9rem; color: var(--text);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .tier-perks li::before { content: '✓'; color: var(--gold); font-weight: 900; }
+  .btn-sponsor {
+    display: block; text-align: center;
+    padding: 12px; border-radius: 3px;
+    font-weight: 700; letter-spacing: 2px; font-size: 0.85rem;
+    text-decoration: none; text-transform: uppercase;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .btn-sponsor:hover { transform: translateY(-2px); }
+  .tier-platinum .btn-sponsor { background: #b0c4de; color: #000; }
+  .tier-gold .btn-sponsor { background: var(--gold); color: #000; }
+  .tier-silver .btn-sponsor { background: #c0c0c0; color: #000; }
+  .btn-sponsor:hover { box-shadow: 0 6px 20px rgba(232,0,13,0.3); }
+
+  /* existing sponsors showcase */
+  .sponsors-showcase {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; padding: 2rem;
+    text-align: center;
+  }
+  .sponsors-showcase p {
+    color: var(--muted); font-style: italic; margin-bottom: 1rem;
+  }
+  .sponsor-logo-grid {
+    display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center;
+  }
+  .sponsor-slot {
+    width: 140px; height: 70px;
+    border: 2px dashed var(--border); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--muted); font-size: 0.75rem; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* featured (paid tier) sponsor */
+  .sponsor-featured {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.8rem; margin-bottom: 2rem;
+  }
+  .sponsor-tier-badge {
+    font-family: 'Orbitron', sans-serif; font-weight: 900;
+    font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase;
+    color: #b0c4de;
+    border: 1px solid rgba(176,196,222,0.4);
+    background: rgba(176,196,222,0.08);
+    padding: 5px 16px; border-radius: 2px;
+  }
+  /* light plaque: sponsor logos are dark-on-transparent, so they need a
+     light backing to stay legible on the dark page */
+  .sponsor-plaque {
+    display: flex; align-items: center; justify-content: center;
+    background: #e9e9e9; border-radius: 6px;
+    padding: 1rem 1.4rem;
+    border: 1px solid rgba(176,196,222,0.5);
+    box-shadow: 0 8px 28px rgba(176,196,222,0.12);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%; max-width: 300px;
+  }
+  .sponsor-plaque:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 34px rgba(176,196,222,0.28);
+  }
+  .sponsor-plaque img { width: 100%; height: auto; display: block; }
+  .sponsor-featured .sponsor-blurb {
+    font-size: 0.85rem; color: var(--muted); letter-spacing: 1px;
+    font-style: normal; margin: 0;
+  }
+  .sponsor-featured .sponsor-blurb a { color: var(--muted); text-decoration: none; }
+  .sponsor-featured .sponsor-blurb a:hover { color: var(--red); }
+
+  /* ── CONTACT ─────────────────────────────────── */
+  .contact-wrapper {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+  }
+  @media (max-width: 700px) { .contact-wrapper { grid-template-columns: 1fr; } }
+  .contact-info p {
+    color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem;
+  }
+  .contact-item {
+    display: flex; align-items: center; gap: 0.8rem;
+    margin-bottom: 1rem; font-weight: 600;
+  }
+  .contact-item a { color: var(--text); text-decoration: none; }
+  .contact-item a:hover { color: var(--red); }
+  .contact-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(232,0,13,0.15); border: 1px solid rgba(232,0,13,0.3);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  form { display: flex; flex-direction: column; gap: 1rem; }
+  form input, form textarea, form select {
+    background: var(--card); border: 1px solid var(--border);
+    color: var(--text); padding: 12px 16px;
+    border-radius: 3px; font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem; transition: border-color 0.2s;
+  }
+  form input:focus, form textarea:focus, form select:focus {
+    outline: none; border-color: var(--red);
+  }
+  form textarea { resize: vertical; min-height: 130px; }
+  form select option { background: #1a1a2a; }
+
+  /* ── FOOTER ──────────────────────────────────── */
+  footer {
+    background: #050508;
+    border-top: 1px solid var(--border);
+    text-align: center; padding: 2.5rem 1rem;
+  }
+  footer .footer-logo {
+    font-family: 'Orbitron', sans-serif; font-weight: 900;
+    font-size: 1.5rem; color: var(--red); letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+  }
+  footer .footer-logo span { color: var(--gold); }
+  footer p { color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem; }
+  footer .social-row { display: flex; gap: 1rem; justify-content: center; margin: 1rem 0; }
+  footer .soc-btn {
+    width: 40px; height: 40px; border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    text-decoration: none; color: var(--muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  footer .soc-btn:hover { border-color: var(--red); color: var(--red); }
+
+  /* ── RACING STRIPE ACCENTS ───────────────────── */
+  .stripe-divider {
+    width: 100%; height: 6px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--red) 0px, var(--red) 20px,
+      var(--gold) 20px, var(--gold) 40px,
+      var(--dark) 40px, var(--dark) 60px
+    );
+    opacity: 0.4;
+  }
+
+  /* ── STANDINGS SECTION ───────────────────────── */
+  .standings-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 6px; overflow: hidden; margin-bottom: 2rem;
+  }
+  .standings-header {
+    background: linear-gradient(135deg, #1a0004, #0d0010);
+    border-bottom: 2px solid var(--red);
+    padding: 1rem 1.5rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .standings-header h3 {
+    font-family: 'Orbitron', sans-serif; font-size: 0.9rem;
+    color: var(--gold); letter-spacing: 2px; text-transform: uppercase;
+  }
+  .standings-header a {
+    font-size: 0.8rem; color: var(--red); text-decoration: none;
+    letter-spacing: 1px; font-weight: 700;
+    transition: color 0.2s;
+  }
+  .standings-header a:hover { color: var(--gold); }
+
+  /* ── SCROLL REVEAL ───────────────────────────── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── HAMBURGER MENU ──────────────────────────── */
+  .hamburger {
+    display: none; flex-direction: column; gap: 5px;
+    cursor: pointer; padding: 6px; background: none; border: none;
+  }
+  .hamburger span {
+    display: block; width: 24px; height: 2px;
+    background: var(--text); border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none; position: fixed; top: 64px; left: 0; right: 0;
+    background: rgba(10,10,15,0.98); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--red); z-index: 99;
+    flex-direction: column; padding: 1rem 0;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    color: var(--text); text-decoration: none;
+    font-weight: 700; font-size: 1rem; letter-spacing: 2px;
+    text-transform: uppercase; padding: 0.9rem 2rem;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, background 0.2s;
+  }
+  .mobile-menu a:last-child { border-bottom: none; }
+  .mobile-menu a:hover { color: var(--red); background: rgba(232,0,13,0.05); }
+
+  /* ── RESPONSIVE BREAKPOINTS ──────────────────── */
+
+  /* Tablet & small desktop (≤1024px) */
+  @media (max-width: 1024px) {
+    section { padding: 60px 1.5rem; }
+    .sponsor-cards { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  /* Tablet (≤768px) */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.2rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    section { padding: 50px 1.2rem; }
+
+    .hero { padding: 100px 1.2rem 3rem; }
+    .hero-stats { gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+    .hero-stat .val { font-size: 1.8rem; }
+    .hero-cta { flex-direction: column; align-items: center; gap: 0.8rem; }
+    .btn { width: 100%; max-width: 280px; text-align: center; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .champ-row { grid-template-columns: 1fr; }
+
+    .slideshow-wrap { aspect-ratio: 4/3; }
+    .gallery-thumb { flex: 0 0 140px; }
+
+    .sponsor-cards { grid-template-columns: 1fr; }
+
+    .contact-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+
+    .links-row { flex-direction: column; }
+    .ext-link { justify-content: center; }
+
+    h2.section-title { font-size: 1.6rem; }
+
+    thead th { font-size: 0.6rem; padding: 10px 10px; }
+    tbody td { padding: 10px 10px; font-size: 0.9rem; }
+
+    .standings-header { flex-direction: column; align-items: flex-start; gap: 0.4rem; }
+    .standings-header h3 { font-size: 0.75rem; }
+  }
+
+  /* Mobile (≤480px) */
+  @media (max-width: 480px) {
+    .nav-logo { font-size: 1.1rem; letter-spacing: 2px; }
+
+    section { padding: 40px 1rem; }
+
+    .hero { padding: 90px 1rem 2.5rem; }
+    .hero-badge { font-size: 0.65rem; letter-spacing: 2px; }
+    .hero-stats { gap: 1rem; }
+    .hero-stat .val { font-size: 1.5rem; }
+    .hero-stat .lbl { font-size: 0.65rem; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 0.7rem; }
+    .stat-card { padding: 1rem 0.7rem; }
+    .stat-card .num { font-size: 1.8rem; }
+    .stat-card .desc { font-size: 0.7rem; }
+
+    .slideshow-wrap { aspect-ratio: 1/1; min-height: unset; }
+    .gallery-thumb { flex: 0 0 110px; }
+    .slide-btn { width: 32px; height: 32px; font-size: 1rem; }
+
+    .sponsor-tier { padding: 1.5rem 1.2rem; }
+    .tier-price { font-size: 1.6rem; }
+
+    h2.section-title { font-size: 1.3rem; }
+    .section-label { font-size: 0.7rem; }
+
+    thead th { font-size: 0.55rem; padding: 8px 6px; letter-spacing: 0; }
+    tbody td { padding: 8px 6px; font-size: 0.82rem; }
+
+    .hero-number { font-size: 50vw; }
+
+    footer .footer-logo { font-size: 1.1rem; }
+    .social-row { gap: 0.8rem; }
+
+    form input, form textarea, form select { font-size: 0.95rem; padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">ZAAR <span>#RACING</span></a>
+  <ul class="nav-links">
+    <li><a href="#stats">Stats</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#standings">Standings</a></li>
+    <li><a href="#links">Links</a></li>
+    <li><a href="#sponsors">Sponsors</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#stats"      onclick="closeMenu()">Stats</a>
+  <a href="#gallery"    onclick="closeMenu()">Gallery</a>
+  <a href="#standings"  onclick="closeMenu()">Standings</a>
+  <a href="#links"      onclick="closeMenu()">Links</a>
+  <a href="#sponsors"   onclick="closeMenu()">Sponsors</a>
+  <a href="#contact"    onclick="closeMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hero-number">Z</div>
+  <div class="hero-content">
+    <div class="hero-badge">KA100 · Greater Houston Racing Series</div>
+    <h1 class="driver-name">ZAAR</h1>
+    <p class="hero-sub">Racing Driver &nbsp;·&nbsp; Greater Houston &nbsp;·&nbsp; 2026 Season</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><span class="val">3rd</span><span class="lbl">Points Standing</span></div>
+      <div class="hero-stat"><span class="val">2×</span><span class="lbl">Nationals</span></div>
+      <div class="hero-stat"><span class="val">K1</span><span class="lbl">Alumni</span></div>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-red" href="#sponsors">Become a Sponsor</a>
+      <a class="btn btn-outline" href="#stats">View Stats</a>
+    </div>
+  </div>
+</div>
+
+<div class="stripe-divider"></div>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="reveal">
+    <div class="section-label">Performance</div>
+    <h2 class="section-title">2026 Season <span>Stats</span></h2>
+    <div class="divider"></div>
+
+    <!-- Band 1 — season-wide totals (Spring + Fall combined) -->
+    <div class="band-label">Full Season · Spring + Fall</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="num" id="stat-wins">0</div>
+        <div class="desc">Race Wins</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="stat-podiums">0</div>
+        <div class="desc">Podium Finishes</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="stat-fl">0</div>
+        <div class="desc">Fastest Laps</div>
+      </div>
+      <div class="stat-card">
+        <div class="num" id="stat-races">0</div>
+        <div class="desc">Races Started</div>
+      </div>
+    </div>
+
+    <!-- Band 2 — each championship scored separately by GHRS -->
+    <div class="band-label">Championship Standings</div>
+    <div class="champ-row">
+      <div class="champ-card is-current">
+        <div>
+          <div class="champ-label">Fall Championship</div>
+          <div class="champ-status">In Progress</div>
+        </div>
+        <div class="champ-figures">
+          <div class="champ-pos" id="fall-pos">—</div>
+          <div class="champ-pts"><span id="fall-pts">—</span> pts</div>
+        </div>
+      </div>
+      <div class="champ-card">
+        <div>
+          <div class="champ-label">Spring Championship</div>
+          <div class="champ-status">Final</div>
+        </div>
+        <div class="champ-figures">
+          <div class="champ-pos" id="spring-pos">—</div>
+          <div class="champ-pts"><span id="spring-pts">—</span> pts</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Race Results Table -->
+    <h3 style="font-family:'Orbitron',sans-serif;font-size:1rem;color:var(--gold);letter-spacing:2px;margin-bottom:1rem;text-transform:uppercase;">Race Results</h3>
+    <div style="overflow-x:auto; background:var(--card); border:1px solid var(--border); border-radius:6px;">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>Rd</th>
+            <th>Race / Event</th>
+            <th>Date</th>
+            <th>Track</th>
+            <th>Finish</th>
+            <th>Result</th>
+            <th>Points</th>
+          </tr>
+        </thead>
+        <tbody id="results-body">
+          <!-- Rows added by JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="reveal">
+    <div class="section-label">Media</div>
+    <h2 class="section-title">Photo <span>Gallery</span></h2>
+    <div class="divider"></div>
+
+    <!-- Main slideshow -->
+    <div class="slideshow-wrap" id="slideshow-wrap">
+      <div id="slides-container"></div>
+      <div class="slide-controls">
+        <button class="slide-btn" onclick="changeSlide(-1)">&#8249;</button>
+        <button class="slide-btn" onclick="changeSlide(1)">&#8250;</button>
+      </div>
+      <div class="slide-dots" id="slide-dots"></div>
+    </div>
+
+    <!-- Thumbnail strip -->
+    <div class="gallery-grid" id="gallery-grid"></div>
+
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<!-- STANDINGS -->
+<section id="standings">
+  <div class="reveal">
+    <div class="section-label">GHRS</div>
+    <h2 class="section-title">Points <span>Standings</span></h2>
+    <div class="divider"></div>
+
+    <h3 style="font-family:'Orbitron',sans-serif;font-size:0.9rem;color:var(--gold);letter-spacing:2px;margin-bottom:0.8rem;text-transform:uppercase;">Fall Championship · In Progress</h3>
+    <div class="standings-box">
+      <div class="standings-header">
+        <h3>KA100 · 2026 GHRS Fall</h3>
+        <a href="https://www.alpharacehub.com/greaterhouston/c/5856" target="_blank">Live Standings ↗</a>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="standings-table-fall">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Driver</th>
+              <th>Points</th>
+              <th>Wins</th>
+              <th>Podiums</th>
+              <th>Fastest Laps</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body-fall">
+            <!-- populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 style="font-family:'Orbitron',sans-serif;font-size:0.9rem;color:var(--gold);letter-spacing:2px;margin:2rem 0 0.8rem;text-transform:uppercase;">Spring Championship · Final</h3>
+    <div class="standings-box">
+      <div class="standings-header">
+        <h3>KA100 · 2026 GHRS Spring</h3>
+        <a href="https://www.alpharacehub.com/greaterhouston/c/4864" target="_blank">Live Standings ↗</a>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="standings-table-spring">
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Driver</th>
+              <th>Points</th>
+              <th>Wins</th>
+              <th>Podiums</th>
+              <th>Fastest Laps</th>
+            </tr>
+          </thead>
+          <tbody id="standings-body-spring">
+            <!-- populated by JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<!-- LINKS -->
+<section id="links">
+  <div class="reveal">
+    <div class="section-label">Connect</div>
+    <h2 class="section-title">Follow <span>Zaar</span></h2>
+    <div class="divider"></div>
+    <div class="links-row">
+      <a class="ext-link" href="https://www.alpharacehub.com/greaterhouston" target="_blank">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        Alpha Timing Hub
+      </a>
+      <a class="ext-link" href="https://instagram.com" target="_blank" id="ig-link">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+        Instagram
+      </a>
+      <a class="ext-link" href="https://youtube.com" target="_blank" id="yt-link">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+          <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+        </svg>
+        YouTube
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<!-- SPONSORS -->
+<section id="sponsors">
+  <div class="reveal">
+    <div class="section-label">Sponsorship</div>
+    <h2 class="section-title">Partner with <span>Zaar</span></h2>
+    <div class="divider"></div>
+    <p style="color:var(--muted);max-width:700px;margin-bottom:2.5rem;line-height:1.7;">
+      Join Zaar's journey to the top of the KA100 field. Your logo will be prominently displayed on our racing kart and trailer, and on every race day we'll proudly represent and post about our sponsors on social media — putting your brand in front of the racing community.
+    </p>
+
+    <div class="sponsor-cards">
+      <!-- PLATINUM -->
+      <div class="sponsor-tier tier-platinum">
+        <div class="tier-icon">🏆</div>
+        <div class="tier-name">PLATINUM</div>
+        <div class="tier-price">$2,000</div>
+        <ul class="tier-perks">
+          <li>Large logo on kart (prime position)</li>
+          <li>Large logo on trailer</li>
+          <li>Featured on website</li>
+        </ul>
+        <a class="btn-sponsor" href="#contact">Become Platinum Sponsor</a>
+      </div>
+      <!-- GOLD -->
+      <div class="sponsor-tier tier-gold">
+        <div class="tier-icon">🥇</div>
+        <div class="tier-name">GOLD</div>
+        <div class="tier-price">$1,000</div>
+        <ul class="tier-perks">
+          <li>Medium logo on kart</li>
+          <li>Medium logo on trailer</li>
+          <li>Listed on website sponsors section</li>
+        </ul>
+        <a class="btn-sponsor" href="#contact">Become Gold Sponsor</a>
+      </div>
+      <!-- SILVER -->
+      <div class="sponsor-tier tier-silver">
+        <div class="tier-icon">🥈</div>
+        <div class="tier-name">SILVER</div>
+        <div class="tier-price">$500</div>
+        <ul class="tier-perks">
+          <li>Small logo on trailer</li>
+          <li>Small logo on Kart</li>
+          <li>Listed on website sponsors section</li>
+        </ul>
+        <a class="btn-sponsor" href="#contact">Become Silver Sponsor</a>
+      </div>
+    </div>
+
+    <!-- Existing Sponsors Showcase -->
+    <div class="sponsors-showcase">
+      <h3 style="font-family:'Orbitron',sans-serif;color:var(--gold);font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:1.5rem;">Our Sponsors</h3>
+
+      <div class="sponsor-featured">
+        <div class="sponsor-tier-badge">Platinum Partner</div>
+        <a class="sponsor-plaque" href="https://www.telnexengineering.com" target="_blank" rel="noopener" title="Telnex Engineering — Digital Infrastructure Engineering">
+          <!-- Served from Telnex's own CDN. To self-host instead, save the file
+               as telnex-engineering-logo.png beside this page and swap the src. -->
+          <img src="https://static.wixstatic.com/media/c00e19_0e79beb2578243479711cb30597b62fb~mv2.png/v1/fit/w_600,h_220,al_c,q_90,enc_auto/TELNEX%20ENGINEERING%20LOGO.png"
+               alt="Telnex Engineering"
+               loading="lazy">
+        </a>
+        <p class="sponsor-blurb">
+          Digital Infrastructure Engineering ·
+          <a href="https://www.telnexengineering.com" target="_blank" rel="noopener">telnexengineering.com</a>
+        </p>
+      </div>
+
+      <p>Additional partner slots available · Contact us to add your brand</p>
+      <div class="sponsor-logo-grid" id="sponsor-logos">
+        <div class="sponsor-slot">Your Logo</div>
+        <div class="sponsor-slot">Your Logo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Contact <span>Us</span></h2>
+    <div class="divider"></div>
+    <div class="contact-wrapper">
+      <div class="contact-info">
+        <p>
+          Whether you're interested in sponsorship, media inquiries, or just want to follow the journey — we'd love to hear from you.
+        </p>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--red)" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <a href="mailto:iqbalinc@gmail.com" id="contact-email">iqbalinc@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--red)" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <a href="mailto:zaariqbalracing@gmail.com">zaariqbalracing@gmail.com</a>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--red)" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <span>Greater Houston, Texas</span>
+        </div>
+      </div>
+
+      <form onsubmit="handleContact(event)">
+        <input type="text" placeholder="Your Name" required id="form-name">
+        <input type="email" placeholder="Your Email" required id="form-email">
+        <select id="form-subject">
+          <option value="">— Inquiry Type —</option>
+          <option value="platinum">Platinum Sponsorship ($2,000)</option>
+          <option value="gold">Gold Sponsorship ($1,000)</option>
+          <option value="silver">Silver Sponsorship ($500)</option>
+          <option value="media">Media / Press</option>
+          <option value="general">General Inquiry</option>
+        </select>
+        <textarea placeholder="Your Message" id="form-message"></textarea>
+        <button type="submit" class="btn btn-red" style="font-family:'Rajdhani',sans-serif;cursor:pointer;">
+          Send Message →
+        </button>
+        <p id="form-status" style="color:var(--gold);display:none;font-weight:600;">
+          ✓ Message received! We'll be in touch soon.
+        </p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">ZAAR <span>RACING</span></div>
+  <div class="social-row">
+    <a class="soc-btn" href="https://instagram.com" target="_blank" id="footer-ig" title="Instagram">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+      </svg>
+    </a>
+    <a class="soc-btn" href="https://youtube.com" target="_blank" id="footer-yt" title="YouTube">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+      </svg>
+    </a>
+    <a class="soc-btn" href="https://www.alpharacehub.com/greaterhouston" target="_blank" title="Alpha Timing Hub">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </a>
+  </div>
+  <p>© 2026 Zaar Racing · KA100 · Greater Houston Racing Series</p>
+</footer>
+
+<script>
+/* ================================================================
+   SITE CONFIG — Update these values
+   ================================================================ */
+const siteConfig = {
+  instagram: 'https://instagram.com/zaariqbal49',
+  youtube:   'https://youtube.com/@zaariqbal249',
+  email:     'iqbalinc@gmail.com',
+  email2:    'zaariqbalracing@gmail.com',
+};
+
+/* ================================================================
+   RACE RESULTS DATA — 2026 GHRS Spring Season (100cc Junior)
+   Live results: https://www.alpharacehub.com/greaterhouston
+   ================================================================ */
+/* NOTE: GHRS runs Spring and Fall as two SEPARATE championships — each with its
+   own R1–R7 numbering and its own points table. `season` + `round` below keep
+   that distinction; never number these 1..n continuously across both.
+   `points` = points from the FINAL only (heat points are not stored here). */
+const raceData = [
+  { season: 'Spring', round: 1, event: 'GHRS Race 1',        date: 'Jan 18, 2026', track: 'Gulf Coast Karters',      finish: 8,     type: '',       points: 126, url: 'https://www.alpharacehub.com/greaterhouston/e/348134/s/722789' },
+  { season: 'Spring', round: 2, event: 'GHRS Spring Race 2', date: 'Mar 8, 2026',  track: 'Speedsportz Racing Park', finish: 9,     type: '',       points: 102, url: 'https://www.alpharacehub.com/greaterhouston/e/358737/s/742052' },
+  { season: 'Spring', round: 3, event: 'GHRS Spring Race 3', date: 'Mar 29, 2026', track: 'Gulf Coast Karters',      finish: 'DNS', type: 'dns',    points: 0,   url: 'https://www.alpharacehub.com/greaterhouston/e/363917/s/754228' },
+  { season: 'Spring', round: 4, event: 'GHRS Spring Race 4', date: 'Apr 19, 2026', track: 'Speedsportz Racing Park', finish: 6,     type: '',       points: 96,  url: 'https://www.alpharacehub.com/greaterhouston/e/371361/s/767065' },
+  { season: 'Spring', round: 5, event: 'GHRS Spring Race 5', date: 'May 16, 2026', track: 'Gulf Coast Karters',      finish: 3,     type: 'podium', points: 170, url: 'https://www.alpharacehub.com/greaterhouston/e/377047/s/781715' },
+  { season: 'Spring', round: 6, event: 'GHRS Spring Race 6', date: 'May 17, 2026', track: 'Gulf Coast Karters',      finish: 3,     type: 'podium', points: 170, url: 'https://www.alpharacehub.com/greaterhouston/e/377693/s/782982' },
+  { season: 'Spring', round: 7, event: 'GHRS Spring Race 7', date: 'Jun 7, 2026',  track: 'Speedsportz Racing Park', finish: 6,     type: '',       points: 142, url: 'https://www.alpharacehub.com/greaterhouston/e/383652/s/795126' },
+  { season: 'Fall',   round: 1, event: 'GHRS Fall Race 1',   date: 'Jul 26, 2026', track: 'Gulf Coast Karters',      finish: 3,     type: 'podium', points: 170, url: 'https://www.alpharacehub.com/greaterhouston/e/395616/s/823176' },
+  { season: 'Fall',   round: 2, event: 'GHRS Fall Race 2',   date: 'Aug 9, 2026',  track: 'Speedsportz Racing Park', finish: 12,    type: '',       points: 96,  url: 'https://www.alpharacehub.com/greaterhouston/e/400066/s/831225' },
+];
+
+/* ================================================================
+   STANDINGS DATA — 2026 GHRS 100cc Junior Championship
+   Spring (complete, 7 rounds, best-5-of-7 scoring):
+     Live: https://www.alpharacehub.com/greaterhouston/c/4864
+   Fall (in progress):
+     Live: https://www.alpharacehub.com/greaterhouston/c/5856
+   ================================================================ */
+const standingsDataSpring = [
+  { pos: 1, driver: 'Devlyn Frandsen',        pts: 1360, wins: 1, podiums: 7, fl: 1 },
+  { pos: 2, driver: 'Alex Chandler',          pts: 1170, wins: 3, podiums: 4, fl: 3 },
+  { pos: 3, driver: 'Zaar Iqbal',             pts: 1029, wins: 0, podiums: 2, fl: 0 },
+  { pos: 4, driver: 'Sebastian Suarez',       pts: 988,  wins: 0, podiums: 1, fl: 0 },
+  { pos: 5, driver: 'Thiago Costas Gentili',  pts: 941,  wins: 0, podiums: 0, fl: 0 },
+  { pos: 6, driver: 'Elisha Tinubu',          pts: 840,  wins: 0, podiums: 0, fl: 0 },
+  { pos: 7, driver: 'Kaiden Smartt',          pts: 827,  wins: 0, podiums: 0, fl: 0 },
+  { pos: 8, driver: 'Danica Smartt',          pts: 766,  wins: 0, podiums: 0, fl: 0 },
+];
+
+const standingsDataFall = [
+  { pos: 1, driver: 'Kaiden Smartt',          pts: 488, wins: 1, podiums: 1, fl: 0 },
+  { pos: 2, driver: 'Cruz Rodriguez',         pts: 474, wins: 0, podiums: 1, fl: 1 },
+  { pos: 3, driver: 'Danica Smartt',          pts: 473, wins: 0, podiums: 1, fl: 0 },
+  { pos: 4, driver: 'Yannick Perera',         pts: 431, wins: 0, podiums: 0, fl: 0 },
+  { pos: 5, driver: 'Elisha Tinubu',          pts: 390, wins: 0, podiums: 0, fl: 0 },
+  { pos: 6, driver: 'Benton Hale',            pts: 384, wins: 0, podiums: 0, fl: 0 },
+  { pos: 7, driver: 'Zaar Iqbal',             pts: 376, wins: 0, podiums: 1, fl: 0 },
+  { pos: 8, driver: 'Thiago Costas Gentili',  pts: 352, wins: 0, podiums: 0, fl: 0 },
+];
+
+/* ================================================================
+   PHOTO GALLERY — served from photos/ folder via get-photos.php
+   ================================================================ */
+
+/* ================================================================
+   BOOT — don't edit below unless you know JS
+   ================================================================ */
+function init() {
+  // Apply social links
+  document.getElementById('ig-link').href = siteConfig.instagram;
+  document.getElementById('yt-link').href = siteConfig.youtube;
+  document.getElementById('footer-ig').href = siteConfig.instagram;
+  document.getElementById('footer-yt').href = siteConfig.youtube;
+  if (siteConfig.email) document.getElementById('contact-email').href = 'mailto:' + siteConfig.email;
+  if (siteConfig.email) document.getElementById('contact-email').textContent = siteConfig.email;
+  if (siteConfig.phone) document.getElementById('contact-phone').textContent = siteConfig.phone;
+
+  buildRaceTable();
+  buildStandings();
+  buildGallery();
+  updateStatCards();
+  revealOnScroll();
+}
+
+const ordinal = n => n + (n===1?'st':n===2?'nd':n===3?'rd':'th');
+
+/* Results are grouped by championship (Fall first, matching the standings
+   section) with round numbers restarting at R1 in each — GHRS scores the two
+   seasons independently, so continuous 1..n numbering would misrepresent them. */
+function buildRaceTable() {
+  const tbody = document.getElementById('results-body');
+  tbody.innerHTML = '';
+
+  const seasons = [
+    { key: 'Fall',   label: 'Fall 2026',   status: 'In Progress', standings: standingsDataFall },
+    { key: 'Spring', label: 'Spring 2026', status: 'Final',       standings: standingsDataSpring },
+  ];
+
+  seasons.forEach(season => {
+    const rounds = raceData.filter(r => r.season === season.key);
+    if (!rounds.length) return;
+
+    const zaar = season.standings.find(s => s.driver === 'Zaar Iqbal');
+    const summary = zaar ? `${season.status} · ${ordinal(zaar.pos)} · ${zaar.pts} pts` : season.status;
+
+    const hdr = document.createElement('tr');
+    hdr.className = 'season-row';
+    hdr.innerHTML = `<td colspan="7">
+      <span class="season-name">${season.label}</span><span class="season-meta">${summary}</span>
+    </td>`;
+    tbody.appendChild(hdr);
+
+    rounds.forEach(r => {
+      const tr = document.createElement('tr');
+      const isDNS = r.type === 'dns';
+      let finishClass = '';
+      if (r.finish === 1) finishClass = 'pos-1';
+      else if (r.finish === 2) finishClass = 'pos-2';
+      else if (r.finish === 3) finishClass = 'pos-3';
+
+      let badge = '';
+      if (r.type === 'win')         badge = '<span class="badge-win">WIN</span>';
+      else if (r.type === 'podium') badge = '<span class="badge-podium">PODIUM</span>';
+      else if (r.type === 'fl')     badge = '<span class="badge-fl">FAST LAP</span>';
+      else if (isDNS)               badge = '<span style="color:var(--muted);font-size:.75rem;letter-spacing:1px;">DNS</span>';
+
+      const finishDisplay = isDNS ? '—' : `P${r.finish}`;
+      const eventLink = r.url ? `<a href="${r.url}" target="_blank" style="color:inherit;text-decoration:none;" title="View result on AlphaRaceHub">${r.event} ↗</a>` : r.event;
+
+      tr.innerHTML = `
+        <td style="color:var(--muted)">R${r.round}</td>
+        <td style="font-weight:700">${eventLink}</td>
+        <td style="color:var(--muted)">${r.date}</td>
+        <td>${r.track}</td>
+        <td class="${finishClass}" style="font-family:'Orbitron',sans-serif;font-weight:900;${isDNS?'color:var(--muted)':''}">${finishDisplay}</td>
+        <td>${badge}</td>
+        <td style="color:${r.points>0?'var(--gold)':'var(--muted)'};font-weight:700">${r.points || '—'}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  });
+}
+
+function buildStandingsTable(data, tbodyId) {
+  const tbody = document.getElementById(tbodyId);
+  data.forEach(s => {
+    const tr = document.createElement('tr');
+    const isZaar = s.driver === 'Zaar Iqbal';
+    let posClass = '';
+    if (s.pos === 1) posClass = 'pos-1';
+    else if (s.pos === 2) posClass = 'pos-2';
+    else if (s.pos === 3) posClass = 'pos-3';
+
+    tr.innerHTML = `
+      <td class="${posClass}" style="font-family:'Orbitron',sans-serif;font-weight:900">${s.pos}</td>
+      <td style="font-weight:${isZaar?'900':'600'};color:${isZaar?'#fff':'var(--text)'}">${s.driver}${isZaar?' 🏁':''}</td>
+      <td style="color:var(--gold);font-weight:700">${s.pts}</td>
+      <td>${s.wins}</td>
+      <td>${s.podiums}</td>
+      <td>${s.fl}</td>
+    `;
+    if (isZaar) tr.style.background = 'rgba(232,0,13,0.07)';
+    tbody.appendChild(tr);
+  });
+}
+
+function buildStandings() {
+  buildStandingsTable(standingsDataFall, 'standings-body-fall');
+  buildStandingsTable(standingsDataSpring, 'standings-body-spring');
+}
+
+function updateStatCards() {
+  // Band 1 — cumulative across BOTH championships. These are simple counts of
+  // race outcomes, so they aggregate safely.
+  document.getElementById('stat-wins').textContent    = raceData.filter(r=>r.type==='win').length;
+  document.getElementById('stat-podiums').textContent = raceData.filter(r=>r.type==='podium'||r.type==='win').length;
+  document.getElementById('stat-fl').textContent      = raceData.filter(r=>r.type==='fl').length;
+  document.getElementById('stat-races').textContent   =
+    raceData.filter(r=>r.type!=='dns').length + ' / ' + raceData.length;
+
+  // Band 2 — points/position are NEVER combined across seasons: GHRS scores
+  // Spring and Fall as separate championships (Spring also applies a
+  // best-5-of-7 drop). Each figure is taken straight from its own table.
+  const setChamp = (data, posId, ptsId) => {
+    const z = data.find(s => s.driver === 'Zaar Iqbal');
+    document.getElementById(posId).textContent = z ? ordinal(z.pos) : '—';
+    document.getElementById(ptsId).textContent = z ? z.pts : '—';
+  };
+  setChamp(standingsDataFall,   'fall-pos',   'fall-pts');
+  setChamp(standingsDataSpring, 'spring-pos', 'spring-pts');
+}
+
+/* ── SLIDESHOW STATE ── */
+let slides = [], currentSlide = 0, slideTimer = null;
+
+async function buildGallery() {
+  const container = document.getElementById('slides-container');
+  const grid      = document.getElementById('gallery-grid');
+  const dotsEl    = document.getElementById('slide-dots');
+  const wrap      = document.getElementById('slideshow-wrap');
+
+  try {
+    const res  = await fetch('photos.json');
+    const data = await res.json();
+    slides = data.photos || [];
+  } catch(e) {
+    slides = [];
+  }
+
+  if (slides.length === 0) {
+    wrap.innerHTML = `
+      <div class="no-photos">
+        <div class="icon">📷</div>
+        <p>No photos yet — drop images into the <strong>photos/</strong> folder in the repo and update photos.json.</p>
+      </div>`;
+    return;
+  }
+
+  // Build slides
+  container.innerHTML = '';
+  dotsEl.innerHTML    = '';
+  grid.innerHTML      = '';
+
+  slides.forEach((src, i) => {
+    // Main slide
+    const slide = document.createElement('div');
+    slide.className = 'slide' + (i === 0 ? ' active' : '');
+    const fname = src.split('/').pop().replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+    slide.innerHTML = `<img src="${src}" loading="lazy" alt="${fname}"><div class="slide-caption">${fname}</div>`;
+    container.appendChild(slide);
+
+    // Dot
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goToSlide(i);
+    dotsEl.appendChild(dot);
+
+    // Thumbnail
+    const thumb = document.createElement('div');
+    thumb.className = 'gallery-thumb' + (i === 0 ? ' active-thumb' : '');
+    thumb.innerHTML = `<img src="${src}" loading="lazy" alt="${fname}">`;
+    thumb.onclick = () => goToSlide(i);
+    grid.appendChild(thumb);
+  });
+
+  startAutoPlay();
+}
+
+function goToSlide(n) {
+  const allSlides = document.querySelectorAll('.slide');
+  const allDots   = document.querySelectorAll('.dot');
+  const allThumbs = document.querySelectorAll('.gallery-thumb');
+
+  allSlides[currentSlide]?.classList.remove('active');
+  allDots[currentSlide]?.classList.remove('active');
+  allThumbs[currentSlide]?.classList.remove('active-thumb');
+
+  currentSlide = (n + slides.length) % slides.length;
+
+  allSlides[currentSlide]?.classList.add('active');
+  allDots[currentSlide]?.classList.add('active');
+  allThumbs[currentSlide]?.classList.add('active-thumb');
+
+  // Scroll thumb strip horizontally only (no page scroll)
+  const thumb = allThumbs[currentSlide];
+  if (thumb) {
+    const grid = document.getElementById('gallery-grid');
+    if (grid) grid.scrollLeft = thumb.offsetLeft - grid.offsetWidth / 2 + thumb.offsetWidth / 2;
+  }
+}
+
+function changeSlide(dir) {
+  clearInterval(slideTimer);
+  goToSlide(currentSlide + dir);
+  startAutoPlay();
+}
+
+function startAutoPlay() {
+  clearInterval(slideTimer);
+  if (slides.length > 1) {
+    slideTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
+  }
+}
+
+async function handleContact(e) {
+  e.preventDefault();
+  const btn     = e.target.querySelector('button[type="submit"]');
+  const status  = document.getElementById('form-status');
+  const name    = document.getElementById('form-name').value;
+  const email   = document.getElementById('form-email').value;
+  const subject = document.getElementById('form-subject').value;
+  const message = document.getElementById('form-message').value;
+
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        access_key: '8fbea9b0-c8ad-43c5-8599-100760c8d391',
+        subject: `Zaar Racing - ${subject || 'Inquiry'} from ${name}`,
+        from_name: name,
+        replyto: email,
+        to: `${siteConfig.email},${siteConfig.email2}`,
+        message: `${message}\n\nFrom: ${name}\nEmail: ${email}\nInquiry Type: ${subject || 'General'}`,
+        botcheck: ''
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      status.textContent = '✓ Message sent! We\'ll be in touch soon.';
+      status.style.color = 'var(--gold)';
+      status.style.display = 'block';
+      e.target.reset();
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (err) {
+    status.textContent = '✗ Something went wrong. Please email us directly.';
+    status.style.color = 'var(--red)';
+    status.style.display = 'block';
+  }
+
+  btn.textContent = 'Send Message →';
+  btn.disabled = false;
+}
+
+function revealOnScroll() {
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('visible'); io.unobserve(en.target); } });
+  }, { threshold: 0.1 });
+  els.forEach(el => io.observe(el));
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+function toggleMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const btn  = document.getElementById('hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function closeMenu() {
+  document.getElementById('mobile-menu').classList.remove('open');
+  document.getElementById('hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>
