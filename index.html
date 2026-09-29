@@ -1039,26 +1039,8 @@
     <div class="contact-wrapper">
       <div class="contact-info">
         <p>
-          Whether you're interested in sponsorship, media inquiries, or just want to follow the journey — we'd love to hear from you.
+          Whether you're interested in sponsorship, media inquiries, or just want to follow the journey — we'd love to hear from you. Just fill out the form and we'll get back to you.
         </p>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--red)" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-          </div>
-          <a href="mailto:iqbalinc@gmail.com" id="contact-email">iqbalinc@gmail.com</a>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--red)" stroke-width="2">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-              <polyline points="22,6 12,13 2,6"/>
-            </svg>
-          </div>
-          <a href="mailto:zaariqbalracing@gmail.com">zaariqbalracing@gmail.com</a>
-        </div>
         <div class="contact-item">
           <div class="contact-icon">
             <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="var(--red)" stroke-width="2">
@@ -1125,8 +1107,6 @@
 const siteConfig = {
   instagram: 'https://instagram.com/zaariqbal49',
   youtube:   'https://youtube.com/@zaariqbal249',
-  email:     'iqbalinc@gmail.com',
-  email2:    'zaariqbalracing@gmail.com',
 };
 
 /* ================================================================
@@ -1191,8 +1171,6 @@ function init() {
   document.getElementById('yt-link').href = siteConfig.youtube;
   document.getElementById('footer-ig').href = siteConfig.instagram;
   document.getElementById('footer-yt').href = siteConfig.youtube;
-  if (siteConfig.email) document.getElementById('contact-email').href = 'mailto:' + siteConfig.email;
-  if (siteConfig.email) document.getElementById('contact-email').textContent = siteConfig.email;
   if (siteConfig.phone) document.getElementById('contact-phone').textContent = siteConfig.phone;
 
   buildRaceTable();
@@ -1425,7 +1403,6 @@ async function handleContact(e) {
         subject: `Zaar Racing - ${subject || 'Inquiry'} from ${name}`,
         from_name: name,
         replyto: email,
-        to: `${siteConfig.email},${siteConfig.email2}`,
         message: `${message}\n\nFrom: ${name}\nEmail: ${email}\nInquiry Type: ${subject || 'General'}`,
         botcheck: document.getElementById('form-botcheck').checked
       })
@@ -1440,7 +1417,7 @@ async function handleContact(e) {
       throw new Error(data.message);
     }
   } catch (err) {
-    status.textContent = '✗ Something went wrong. Please email us directly.';
+    status.textContent = '✗ Something went wrong. Please try again in a moment.';
     status.style.color = 'var(--red)';
     status.style.display = 'block';
   }
