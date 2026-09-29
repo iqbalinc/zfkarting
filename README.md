@@ -1,6 +1,6 @@
-# zfkarting.org
+# ZFKarting (zfkarting.org)
 
-Static racing site, hosted on GitHub Pages.
+Static junior kart racing site for brothers Zaar and Faiz Iqbal, hosted on GitHub Pages.
 
 ## Adding photos
 1. Drop images (jpg/png/webp) into `photos/`.
